@@ -72,6 +72,14 @@ class Fairroot(CMakePackage):
 
         return options
 
+    def install(self, spec, prefix):
+        super(Fairroot, self).install(spec, prefix)
+
+        if self.spec.satisfies('@19: +examples'):
+            with working_dir(self.build_directory):
+                # "CTEST_OUTPUT_ON_FAILURE=1" has too much UTF8/etc...
+                make("test", parallel=False)
+
     def common_env_setup(self, env):
         # So that root finds the shared library / rootmap
         env.prepend_path("LD_LIBRARY_PATH", self.prefix.lib)
