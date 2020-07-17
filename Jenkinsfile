@@ -70,7 +70,7 @@ pipeline {
             """
           }
 
-          if (env.CHANGE_ID != null) {
+          if (true) {
               specs_list = [
                 [os: 'macOS'],
               ];
@@ -81,14 +81,8 @@ pipeline {
               ];
           }
 
-          def macos_jobs = jobMatrix('macos', ctestcmd, specs_list)
-          { spec, label, jobsh ->
-            sh """
-              hostname -f
-              export LABEL=${label}
-              ${ctestcmd}
-            """
-          }
+          def macos_jobs = []
+
           throttle(['long']) {
             parallel(linux_jobs + macos_jobs)
           }

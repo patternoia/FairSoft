@@ -90,29 +90,7 @@ set_property(TEST test.start APPEND PROPERTY
 # Main tests
 # ----------
 
-fs_test(NAME test.cmake               SPEC cmake)
-fs_test(NAME test.grpc                SPEC grpc)
-fs_test(NAME test.flatbuffers         SPEC flatbuffers)
-fs_test(NAME test.fairlogger          ENV test/env/fairlogger)
-fs_test(NAME test.dds                 ENV test/env/dds)
-fs_test(NAME test.fairmq              ENV test/env/fairmq)
-fs_test(NAME test.odc                 SPEC odc)
-fs_test(NAME jun19.sim                ENV env/jun19/sim)
-fs_test(NAME jun19.sim_mt             ENV env/jun19/sim_mt)
-fs_test(NAME dev.sim                  ENV env/dev/sim)
-fs_test(NAME dev.sim_mt               ENV env/dev/sim_mt)
-fs_test(NAME dev.sim_mt_headless      ENV env/dev/sim_mt_headless)
-fs_test(NAME test.jun19_fairroot_18_4 ENV test/env/jun19_fairroot_18_4)
 fs_test(NAME test.fairroot_develop    ENV test/env/fairroot_develop)
-fs_test(NAME test.r3broot             ENV test/env/r3broot)
-# if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  # fs_test(NAME test.openmpi_3 ENV test/env/openmpi_3 MIGHT_FAIL)
-# endif()
-
-fs_test(NAME workflow.classic_developer_jun19 ENV env/jun19/sim
-                                              POST test/workflow/classic_developer.sh)
-fs_test(NAME workflow.classic_developer_dev   ENV env/dev/sim
-                                              POST test/workflow/classic_developer.sh)
 
 # Test cleanup
 # ------------
