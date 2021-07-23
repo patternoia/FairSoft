@@ -40,7 +40,7 @@ jobs:
         run: docker buildx create --use
 
       - name: Build tagged docker image
-        run: docker buildx build -t elavrik/fairsoft:${{ env.TAG_NAME }} -f contrib/docker/Dockerfile --platform linux/arm64/v8,linux/amd64 --push contrib/docker
+        run: docker buildx build --build-arg GIT_TAG=${{ env.TAG_NAME }} -t elavrik/fairsoft:${{ env.TAG_NAME }} -f contrib/docker/Dockerfile --platform linux/arm64/v8,linux/amd64 --push contrib/docker
 
       - name: Build latest docker image
-        run: docker buildx build -t elavrik/fairsoft:latest -f contrib/docker/Dockerfile --platform linux/arm64/v8,linux/amd64 --push contrib/docker
+        run: docker buildx build --build-arg GIT_TAG=${{ env.TAG_NAME }} -t elavrik/fairsoft:latest -f contrib/docker/Dockerfile --platform linux/arm64/v8,linux/amd64 --push contrib/docker
