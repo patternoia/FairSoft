@@ -39,12 +39,5 @@ jobs:
       - name: Create buildx worker node
         run: docker buildx create --use
 
-      # build images separately to avoid 6 hour job duration limits
       - name: Build tagged docker image amd64
-        run: docker buildx build --build-arg GIT_TAG=${{ env.TAG_NAME }} -t elavrik/fairsoft:${{ env.TAG_NAME }} -f contrib/docker/Dockerfile --platform=linux/amd64 --load contrib/docker
-
-      - name: Build tagged docker image arm64
-        run: docker buildx build --build-arg GIT_TAG=${{ env.TAG_NAME }} -t elavrik/fairsoft:${{ env.TAG_NAME }} -f contrib/docker/Dockerfile --platform=linux/arm64/v8 --load contrib/docker
-
-      - name: Upload to dockerhub
-        run: docker buildx build --build-arg GIT_TAG=${{ env.TAG_NAME }} -t elavrik/fairsoft:${{ env.TAG_NAME }} -f contrib/docker/Dockerfile --platform=linux/amd64,linux/arm64/v8 --push contrib/docker
+        run: docker buildx build --build-arg GIT_TAG=${{ env.TAG_NAME }} -t elavrik/fairsoft:${{ env.TAG_NAME }} -f contrib/docker/Dockerfile --platform=linux/amd64 --push contrib/docker

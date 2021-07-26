@@ -3,6 +3,7 @@ ARG BASE_IMAGE=ubuntu:20.04
 FROM $BASE_IMAGE
 
 ARG GIT_TAG=apr21p1
+ARG BUILD_TYPE=Release
 
 #
 # Install dependencies
@@ -28,11 +29,12 @@ WORKDIR /tmp/fairsoft-build
 ADD ./legacy.cmake .
 RUN git clone https://github.com/FairRootGroup/FairSoft.git -b ${GIT_TAG} --depth 1 FairSoft && \
     cp ./legacy.cmake FairSoft/cmake/legacy.cmake && \
-    cmake -B FairSoft_build -S FairSoft -C FairSoft/FairSoftConfig.cmake -DCMAKE_INSTALL_PREFIX=/opt/fairsoft && \
+    cmake -B FairSoft_build -S FairSoft -C FairSoft/FairSoftConfig.cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=/opt/fairsoft && \
     cmake --build FairSoft_build -j`nproc` && rm -rf /tmp/fair*
 
-ENV SIMPATH="/opt/fairsoft"\
+ENV SIMPATH="/opt/fairsoft" \
     CLING_STANDARD_PCH="none" \
+    G3SYS="" \
     G4ABLADATA="/opt/fairsoft/share/Geant4-10.7.1/data/G4ABLA3.1" \
     G4ENSDFSTATEDATA="/opt/fairsoft/share/Geant4-10.7.1/data/G4ENSDFSTATE2.3" \
     G4INCLDATA="/opt/fairsoft/share/Geant4-10.7.1/data/G4INCL1.0" \
@@ -44,20 +46,29 @@ ENV SIMPATH="/opt/fairsoft"\
     G4RADIOACTIVEDATA="/opt/fairsoft/share/Geant4-10.7.1/data/RadioactiveDecay5.6" \
     G4REALSURFACEDATA="/opt/fairsoft/share/Geant4-10.7.1/data/RealSurface2.2" \
     G4SAIDXSDATA="/opt/fairsoft/share/Geant4-10.7.1/data/G4SAIDDATA2.0" \
+    Geant3_INCLUDE_DIRS="/opt/fairsoft/include/TGeant3" \
+    Geant3_LIBRARY_DIR="/opt/fairsoft/lib" \
     Geant4_INCLUDE_DIRS="/opt/fairsoft/include/Geant4" \
     Geant4VMC_INCLUDE_DIRS="/opt/fairsoft/include/geant4vmc:/opt/fairsoft/include/g4root" \
     Geant4VMC_LIBRARY_DIR="/opt/fairsoft/lib" \
+    Geant4VMC_MACRO_DIR="Geant4VMC_MACRO_DIR-NOTFOUND" \
     JUPYTER_CONFIG_DIR="/opt/fairsoft/etc/notebook" \
     JUPYTER_PATH="/opt/fairsoft/etc/notebook" \
     LD_LIBRARY_PATH="/opt/fairsoft/lib" \
     LIBPATH="/opt/fairsoft/lib" \
+    PLUTO_INCLUDE_DIR="" \
+    PLUTO_LIBRARY_DIR="" \
     PYTHIA6_LIBRARY_DIR="/opt/fairsoft/lib" \
     PYTHIA8DATA="/opt/fairsoft/share/Pythia8/xmldoc" \
-    PYTHONPATH="/lib:/lib/root:/lib/Geant4:/lib/g4py" \
+    PYTHONPATH="/opt/fairsoft/lib:/opt/fairsoft/lib/root:/opt/fairsoft/lib/Geant4:/opt/fairsoft/lib/g4py" \
+    ROOT_INCLUDE_PATH="/opt/fairsoft/include/TGeant3" \
     ROOT_LIBRARIES="/opt/fairsoft/lib/libCore.so:/opt/fairsoft/lib/libImt.so:/opt/fairsoft/lib/libRIO.so:/opt/fairsoft/lib/libNet.so:/opt/fairsoft/lib/libHist.so:/opt/fairsoft/lib/libGraf.so:/opt/fairsoft/lib/libGraf3d.so:/opt/fairsoft/lib/libGpad.so:/opt/fairsoft/lib/libROOTDataFrame.so:/opt/fairsoft/lib/libTree.so:/opt/fairsoft/lib/libTreePlayer.so:/opt/fairsoft/lib/libRint.so:/opt/fairsoft/lib/libPostscript.so:/opt/fairsoft/lib/libMatrix.so:/opt/fairsoft/lib/libPhysics.so:/opt/fairsoft/lib/libMathCore.so:/opt/fairsoft/lib/libThread.so:/opt/fairsoft/lib/libMultiProc.so" \
     ROOT_LIBRARY_DIR="/opt/fairsoft/lib" \
+    ROOTSYS="" \
     SHLIB_PATH="/opt/fairsoft/lib" \
-    USE_VGM="1"
+    SHLVL="1" \
+    SIMPATH="/opt/fairsoft" \
+    USE_VGM="1" 
 
 ENV PATH="${SIMPATH}/bin:${PATH}"
 
